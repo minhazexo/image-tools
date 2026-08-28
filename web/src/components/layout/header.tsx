@@ -23,6 +23,7 @@ const TOOLS_MENU = [
 const NAV_LINKS = [
   { href: "/tools", label: "All Tools" },
   { href: "/about", label: "About" },
+  { href: "/creator", label: "Creator" },
 ];
 
 export function Header() {

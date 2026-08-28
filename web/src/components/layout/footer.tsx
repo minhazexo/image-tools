@@ -11,6 +11,7 @@ const TOOL_LINKS = [
 const COMPANY_LINKS = [
   { href: "/about", label: "About" },
   { href: "/tools", label: "All Tools" },
+  { href: "/creator", label: "Creator" },
   { href: "/contact", label: "Contact" },
 ];
 
