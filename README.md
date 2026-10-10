@@ -63,7 +63,7 @@ ImageTools is an all-in-one image processing web app with **15 tools (16 tool UR
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) v1.0+ (recommended) or Node.js 18+
+- [Bun](https://bun.sh) 1.1+ (required — this project uses Bun as its package manager and runtime)
 
 ### Installation
 
@@ -87,13 +87,16 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Command | Description |
 |---------|-------------|
-| `bun run dev` | Start dev server (Next.js + AI service) |
-| `bun run dev:web` | Start Next.js dev server only |
+| `bun run dev` | Start Next.js dev server |
+| `bun run dev:web` | Start Next.js dev server only (alias of `dev`) |
+| `bun run dev:full` | Start dev server + legacy Python AI service |
+| `bun run ai-service` | Start legacy Python AI service only |
+| `bun run sync-vendor` | Re-vendor browser AI runtime into `public/vendor` (auto-runs on install) |
 | `bun run build` | Production build |
 | `bun run start` | Serve production build |
 | `bun run typecheck` | TypeScript type checking |
 | `bun run lint` | ESLint |
-| `bun test` | Run Vitest tests |
+| `bun run test` | Run Vitest tests |
 
 ---
 
