@@ -21,7 +21,7 @@ These are non-sensitive and reversible (clearing site data removes them).
 ## Third parties
 
 - No third-party image-processing or storage services are used for image data.
-- The AI background removal model is downloaded from a CDN (`staticimgly.com`) on first use and cached by the browser. The model runs locally — no image data is sent to any server.
+- The AI background removal model (`@imgly/background-removal` 1.7.0, `isnet_fp16` ~84 MB) is downloaded from a CDN (`staticimgly.com/@imgly/background-removal-data/1.7.0/dist/`, loader vendored at `/vendor/imgly/index.mjs`) on first use and cached by the browser. The model runs locally — no image data is sent to any server. AI path enforces its own 25 MB / 20 MP caps.
 - No analytics or tracking scripts are bundled.
 - Google Fonts are self-hosted through `next/font` at build time — no runtime font requests.
 - The PWA service worker only caches the app shell for offline use.

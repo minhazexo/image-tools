@@ -23,33 +23,32 @@ This document describes **everything** used to make images transparent: the full
 
 ## 1. Architecture Overview
 
+> As-built 2026-10-10: production path is **pure client-side WASM** (`@imgly/background-removal` 1.7.0, `isnet_fp16`). There is **no** `web/src/app/api/transparent-image/route.ts` proxy in the repo. `services/bg-remover` (FastAPI, `rembg`, port 8765) is **legacy-optional** — kept for local dev via `bun run dev` (`scripts/start-ai.mjs`) and as algorithm reference (CIELAB, trimap, decontaminate), not used in prod.
+
 ```
 User uploads image
         ↓
-Frontend (Next.js)
-  ├── ImageDropzone → validates file size/type
+Frontend (Next.js) — PROD PATH
+  ├── ImageDropzone → validates file (general 100 MB / ~268 MP; AI 25 MB / 20 MP)
   ├── Reads file → creates canvas (EXIF orientation)
-  └── Sends to API
-        ↓
-API Proxy (web/src/app/api/transparent-image/route.ts)
-  └── Forwards to bg-remover service (http://127.0.0.1:8765)
-        ↓
-Backend (services/bg-remover/app/)
-  ├── Validates image (format, size, pixel count, decompression bomb)
-  ├── EXIF orientation fix
-  ├── Normalize to RGBA
-  ├── Mode dispatch: auto / color / manual
-  │     ├── auto  → rembg AI → mask refinement → decontaminate
-  │     ├── color → CIELAB distance → smooth alpha
-  │     └── manual → apply client-provided mask
-  ├── Optional: trim transparent borders
-  └── Encode as PNG, return
+  └── Auto mode → ai.ts → @imgly/background-removal (WASM, /vendor/imgly/index.mjs)
+  └── Color mode → engine.ts removeColorFromCanvas (GIMP color-to-alpha)
+  └── Manual mode → mask-editor.tsx (alpha-only brushes)
         ↓
 Frontend post-processing (client-side)
   ├── decontaminateMatte() — replace background color at edges
   └── softenAlpha() — light Gaussian blur on alpha
         ↓
 Result displayed with checkerboard/white/black preview
+```
+
+Legacy dev-only alternative (not in prod bundle):
+
+```
+Frontend → POST /transparent-image → services/bg-remover (127.0.0.1:8765)
+  ├── auto → rembg AI → mask refinement → decontaminate
+  ├── color → CIELAB distance → smooth alpha
+  └── manual → apply client-provided mask
 ```
 
 ---
@@ -531,7 +530,13 @@ services/bg-remover/
 web/src/
 ├── app/
 │   ├── transparent-image/page.tsx          # Page with SEO metadata
-│   └── api/transparent-image/route.ts      # API proxy to bg-remover
+│   └── (no api/transparent-image/route.ts — removed; prod is WASM-only)
+├── components/
+│   ├── tools/transparent-image/            # Tool folder (barrel index.ts)
+│   │   ├── transparent-image.tsx           # Main UI component
+│   │   ├── mask-editor.tsx                 # Manual mask editor (colocated, single-use)
+│   │   └── index.ts                        # Barrel: export * from both
+│   └── processing/mask-editor.tsx          # REMOVED — moved into the tool folder
 ├── components/
 │   ├── tools/transparent-image.tsx         # Main UI component
 │   └── processing/mask-editor.tsx          # Manual mask editor

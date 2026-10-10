@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ToolWorkflow } from "@/components/processing/tool-workflow";
 import type { ProcessJobSpec } from "@/components/processing/tool-workflow";
 import { Slider } from "@/components/ui/slider";
-import { EyedropperImage } from "@/components/image/eyedropper";
+import { EyedropperImage } from "@/components/tools/color-to-transparent/eyedropper";
 import type { UploadedImage } from "@/lib/types";
 
 interface Rgb {

@@ -9,3 +9,8 @@ __pycache__/
 # Environment
 .env
 .env.local
+
+# graphify knowledge graph (local-only, regenerable via /graphify)
+graphify-out/
+.graphify*
+

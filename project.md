@@ -1,5 +1,7 @@
 # Image Magics Project
 
+> As-built 2026-10-10: this repo holds **two generations**. Active product is `web/` (ImageTools, Next.js 14, 15 tools, client-side WASM AI). `src/image_magics` Python lib is legacy/frozen (no `ai_enhancement.py`); `services/bg-remover` FastAPI is legacy-optional dev service. See `README.md`, `web/README.md`, `docs/architecture.md`, and `graphify-out/GRAPH_REPORT.md` (964 nodes / 1935 edges / 75 communities).
+
 ## Overview
 Image Magics is a toolset for advanced image processing and manipulation, leveraging AI-driven techniques to transform, enhance, and analyze digital images. The project focuses on providing high-quality, efficient, and user-friendly tools for both developers and end-users.
 

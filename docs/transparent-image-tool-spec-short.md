@@ -1,5 +1,7 @@
 # Transparent Image Tool — Practical Implementation Guide
 
+> As-built 2026-10-10: Auto mode ships as client-side WASM (`ai.ts` → `@imgly/background-removal` 1.7.0, no server proxy). The `POST /api/transparent-image` + `rembg`/`sharp` flow below describes the legacy `services/bg-remover` dev path, kept for reference. Color mode in prod uses `engine.ts removeColorFromCanvas` (GIMP color-to-alpha); backend CIELAB is the legacy equivalent.
+
 ## Goal
 
 Fix `/transparent-image` so it creates **real transparency**, not a white/gray/checkerboard background.
@@ -421,7 +423,7 @@ Otherwise some phone images can appear rotated.
 
 ## 15. Large Image Safety
 
-Set limits:
+Set limits (legacy backend values; prod client uses 100 MB / ~268 MP general, 25 MB / 20 MP AI):
 
 ```env
 MAX_IMAGE_SIZE_MB=25

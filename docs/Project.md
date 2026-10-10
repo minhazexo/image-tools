@@ -1,5 +1,11 @@
 # Build a Professional All-in-One Image Optimizer & Image Tools Website
 
+> As-built status 2026-10-10 (do not treat the rest of this file as live docs — it is the original build prompt, kept for history):
+> - Shipped: 15 tools in `web/src/lib/tools.ts` (16 tool URLs with `/flipper` alias), Next.js 14 + TS + Tailwind + Zustand + Zod + JSZip + Vitest + Bun, Canvas/OffscreenCanvas engine in Web Worker, WASM AI (`@imgly/background-removal` 1.7.0), PWA.
+> - Validation: 100 MB / ~268 MP general; AI 25 MB / 20 MP. Formats: JPG/PNG/WebP/GIF/BMP.
+> - `services/bg-remover` is legacy-optional dev service, not prod path. `src/image_magics` Python lib is legacy (no `ai_enhancement.py`).
+> - Live references: `docs/architecture.md`, `docs/image-processing.md`, `docs/privacy.md`, `graphify-out/GRAPH_REPORT.md`.
+
 You are a senior full-stack engineer, UI/UX designer, performance engineer, and image-processing specialist.
 
 Build a production-quality web application called **ImageTools** — an all-in-one image optimization, compression, resizing, conversion, background-removal, and image-editing platform.

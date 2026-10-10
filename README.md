@@ -17,7 +17,7 @@
 
 ## What is this?
 
-ImageTools is an all-in-one image processing web app with **17 tools** that run 100% locally in your browser. No uploads. No servers. No accounts. Your images never leave your device.
+ImageTools is an all-in-one image processing web app with **15 tools (16 tool URLs with the `/flipper` alias)** that run 100% locally in your browser. No uploads. No servers. No accounts. Your images never leave your device.
 
 ### Tools
 
@@ -103,9 +103,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 web/
 ├── public/                    # PWA assets, service worker, manifest
 ├── src/
-│   ├── app/                   # Next.js App Router (17 tool pages + layout)
+│   ├── app/                   # Next.js App Router (16 tool URLs + layout)
 │   ├── components/
-│   │   ├── tools/             # One component per tool
+│   │   ├── tools/             # One folder per tool (<slug>/<slug>.tsx + index.ts barrel)
 │   │   ├── processing/        # Shared workflow, format/quality controls
 │   │   ├── image/             # Uploader, comparison slider, cards
 │   │   ├── layout/            # Header, footer, tool layout
@@ -203,7 +203,7 @@ See [docs/privacy.md](docs/privacy.md) for details.
 ### Adding a New Tool
 
 1. Register in `web/src/lib/tools.ts`
-2. Create `web/src/components/tools/<slug>.tsx`
+2. Create `web/src/components/tools/<slug>/` with `<slug>.tsx` + `index.ts` barrel
 3. Add `web/src/app/<slug>/page.tsx` with metadata
 4. Engine operations go in `web/src/lib/process/engine.ts`
 

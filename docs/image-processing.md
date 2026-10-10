@@ -17,20 +17,20 @@ ImageTools uses a **fully client-side architecture**: all processing — includi
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-All 17 tools run locally. No server, no uploads, no accounts.
+All 15 tools (16 tool URLs with the `/flipper` alias) run locally. No server, no uploads, no accounts.
 
 ## The AI Pipeline: Transparent Image (Client-Side)
 
 ```
 User Upload
     ↓
-File Validation (25 MB, 20 MP)
+File Validation (general: 100 MB, ~268 MP; AI path: 25 MB, 20 MP)
     ↓
 Transparent Image UI (/transparent-image)
     ↓
-@imgly/background-removal (WASM, runs in browser)
+@imgly/background-removal 1.7.0 (WASM, runs in browser)
     ↓
-ONNX Runtime Web (WASM) + isnet_fp16 model
+ONNX Runtime Web (WASM) + isnet_fp16 model (~84 MB via https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/, vendored loader at /vendor/imgly/index.mjs)
     ↓
 Alpha Mask (smooth 256-value gradients)
     ↓
@@ -45,9 +45,9 @@ Preview + Download (PNG with real alpha channel)
 
 Before decoding, each file is checked:
 
-- **Type**: extension or MIME must be in the accepted set (JPG, PNG, WebP, GIF, BMP, AVIF).
-- **Size**: ≤ 25 MB (`MAX_IMAGE_BYTES`).
-- **Dimensions**: after decoding, width × height must be finite, ≥ 1 px, and ≤ 20 MP (`MAX_IMAGE_PIXELS`).
+- **Type**: extension or MIME must be in the accepted set (JPG/JPEG, PNG, WebP, GIF, BMP — see `ACCEPTED_EXTENSIONS`/`ACCEPTED_MIME_TYPES` in `src/lib/utils/validate.ts`; AVIF/TIFF are not accepted).
+- **Size**: ≤ 100 MB general (`MAX_FILE_SIZE_MB`); AI path ≤ 25 MB (`MAX_IMAGE_BYTES` in `src/lib/process/ai.ts`).
+- **Dimensions**: after decoding, width × height must be finite, ≥ 1 px, and ≤ ~268 MP general (`MAX_PIXEL_COUNT`); AI path ≤ 20 MP (`MAX_IMAGE_PIXELS`).
 
 ## 2. Decode
 

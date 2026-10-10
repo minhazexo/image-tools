@@ -126,32 +126,23 @@ src/
 │   └── <slug>/page.tsx          # One page per tool
 │
 ├── components/
-│   ├── tools/                   # One component per tool (15 total)
-│   │   ├── batch.tsx
-│   │   ├── compressor.tsx
-│   │   ├── converter.tsx
-│   │   ├── cropper.tsx
-│   │   ├── editor.tsx
-│   │   ├── metadata-remover.tsx
-│   │   ├── optimizer.tsx
-│   │   ├── resizer.tsx
-│   │   ├── rotator.tsx
-│   │   ├── transparent-image.tsx
-│   │   ├── watermark.tsx
-│   │   └── color-to-transparent.tsx
+│   ├── tools/                   # One folder per tool (12 folders, 15 tools; converter + rotator shared)
+│   │   ├── batch/batch.tsx + index.ts
+│   │   ├── color-to-transparent/color-to-transparent.tsx + eyedropper.tsx + index.ts
+│   │   ├── transparent-image/transparent-image.tsx + mask-editor.tsx + index.ts
+│   │   └── <slug>/<slug>.tsx + index.ts (compressor, converter, cropper, …)
 │   │
-│   ├── processing/              # Shared processing UI
+│   ├── processing/              # Shared processing UI (used by ≥2 tools)
 │   │   ├── tool-workflow.tsx    # Upload → Process → Download pipeline
-│   │   ├── mask-editor.tsx      # Manual transparency mask editor
+│   │   │                        # (mask-editor + eyedropper moved into their tool folders)
 │   │   ├── format-selector.tsx  # Output format picker
 │   │   ├── quality-slider.tsx   # Quality control
 │   │   └── resize-controls.tsx  # Dimension inputs
 │   │
-│   ├── image/                   # Image-specific components
+│   ├── image/                   # Shared image components
 │   │   ├── uploader.tsx         # Drag & drop upload zone
 │   │   ├── image-card.tsx       # Thumbnail card
-│   │   ├── image-comparison.tsx # Before/after slider
-│   │   └── eyedropper.tsx      # Color picker
+│   │   └── image-comparison.tsx # Before/after slider (eyedropper lives in color-to-transparent/)
 │   │
 │   ├── layout/                  # App shell
 │   │   ├── header.tsx           # Navigation header
@@ -206,7 +197,7 @@ src/
 Upload → Validate → Decode → Process (Web Worker) → Result → Download
 ```
 
-1. **Upload** — File validated (type, size ≤ 25 MB, pixels ≤ 20 MP)
+1. **Upload** — File validated (type, size ≤ 100 MB, pixels ≤ ~268 MP; AI path ≤ 25 MB / 20 MP)
 2. **Decode** — `createImageBitmap()` for off-main-thread decoding
 3. **Process** — Operations dispatched to a Web Worker via `postMessage`
 4. **Engine** — Canvas / OffscreenCanvas operations (resize, crop, filters, format)
@@ -289,7 +280,7 @@ bun run lint
 ### Adding a New Tool
 
 1. Register the tool in `src/lib/tools.ts`
-2. Create the tool component in `src/components/tools/<slug>.tsx`
+2. Create the tool folder `src/components/tools/<slug>/` with `<slug>.tsx` + `index.ts` barrel
 3. Add a page in `src/app/<slug>/page.tsx` with metadata
 4. Add any new engine operations in `src/lib/process/engine.ts`
 

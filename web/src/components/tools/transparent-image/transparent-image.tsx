@@ -10,7 +10,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { DownloadButton } from "@/components/download/download-button";
-import { MaskEditor } from "@/components/processing/mask-editor";
+import { MaskEditor } from "@/components/tools/transparent-image/mask-editor";
 import { removeBackgroundViaAi, verifyTransparency, preloadAiModel, MAX_IMAGE_BYTES, type TransparencyStats } from "@/lib/process/ai";
 import { removeColorFromCanvas, softenAlpha } from "@/lib/process/engine";
 import { decontaminateMatte } from "@/lib/process/mask";
